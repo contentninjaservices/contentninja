@@ -32,6 +32,8 @@ The Content Ninja configuration files named: ninja.config.
     stash	= _stash
     public = output
     
+    theme = jasonlong
+    
     debug = 0
 
 
@@ -169,6 +171,12 @@ Unused. Blog Part :)
 Unused. Blog Part :) 
 
     stash	= _stash
+
+### theme
+
+    theme = jasonlong
+
+Selects an installed theme.
 
 ### debug 
 

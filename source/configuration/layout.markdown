@@ -9,7 +9,7 @@ published: true
 
 ## The layout files
 
-The layout files are in the directory "source/_layout". Here is an example "default.html":
+The layout files are in the directory "theme/yourtheme/_layout". Here is an example "default.html":
     
     { % include head.html %}
     </head>
@@ -18,7 +18,7 @@ The layout files are in the directory "source/_layout". Here is an example "defa
       <div id="header">
         { % include menu.html %}
         <div id="wrap">
-          <img src="/images/content-top.gif" alt="content top" class="content-wrap" />
+          <img src="/themefiles/images/content-top.gif" alt="content top" class="content-wrap" />
           <div id="content">
             <div id="main">
               <div class="blog-index">
@@ -36,8 +36,8 @@ The layout files are in the directory "source/_layout". Here is an example "defa
 
 ### Includes 
 
-In the first row of the HTML header is loaded via include. This includes are located in the directory "source/_include". Includes can load other includes.
-In head.html will include, for example, "css/screen.css". The "css/screen.css" is also stored in the directory "source/_include".
+In the first row of the HTML header is loaded via include. This includes are located in the directory "theme/yourtheme/_include". Includes can load other includes.
+In head.html will include, for example, "theme/yourtheme/themefiles/css/screen.css". The "css/screen.css" is also stored in the directory "theme/yourtheme/_include".
 
 Furthermore, code in default.html normal HTML. In between is still a inlude the navigation area of the page.
 
