@@ -1,7 +1,7 @@
 package SPP;
 use vars qw($VERSION @ISA @EXPORT);
 require Exporter;
-our $VERSION = "0.7.9";
+our $VERSION = "0.8.0";
 
 use Cwd;
 use LWP::Simple;
@@ -132,7 +132,8 @@ sub loadpost{
 
 sub loadlayout() {
 	my ($self,$layout) = @_;
-	$layout = "source/_layout/".$layout.".html";
+	my $cfg = $self->getthehash("cfg");
+	$layout = "themes/" . $cfg->{theme} . "/_layout/".$layout.".html";
 	my $fh=new IO::File($layout,'r') || die('3 Error: Unable to read file '.$layout.': '.$!);
 	my $data=join('',<$fh>);
 	$fh->close();
@@ -235,7 +236,8 @@ sub rssentries{
 
 sub include() {
   my ($self,$file) = @_; 
-  my $p    = "source/_includes";
+	my $cfg = $self->getthehash("cfg");
+  my $p    = "themes/" . $cfg->{theme} . "/_includes";
   my $fh=new IO::File($p.'/'.$file,'r') || return('4 Error: Unable to read file '.$p."/".$file.': '.$!);
   my $str=join('',<$fh>);
   $fh->close();
@@ -316,30 +318,10 @@ sub copy2public {
 	my ($self,@array) = @_;
 	print "Kopiere CSS und Images ...";
 	my $cfg = $self->getthehash("cfg");
-	# my $fromdir = $cfg->{source}.'/css';
-	# my $todir = $cfg->{public}.'/css';
-	# $self->createdirectory($todir);
-	# dircopy($fromdir,$todir) or die $!;
-	$fromdir = $cfg->{source}.'/images';
-	$todir = $cfg->{public}.'/images';
+	$fromdir = "themes/" . $cfg->{theme} . '/themefiles';
+	$todir = $cfg->{public} . '/themefiles';
 	$self->createdirectory($todir);
 	dircopy($fromdir,$todir) or die $!;
-	# $fromdir = $cfg->{source}.'/js';
-	# $todir = $cfg->{public}.'/js';
-	# $self->createdirectory($todir);
-	# dircopy($fromdir,$todir) or die $!;
-	# $fromdir = $cfg->{source}.'/javascripts';
-	# $todir = $cfg->{public}.'/javascripts';
-	# $self->createdirectory($todir);
-	# dircopy($fromdir,$todir) or die $!;
-	$fromdir = $cfg->{source}.'/stylesheets';
-	$todir = $cfg->{public}.'/stylesheets';
-	$self->createdirectory($todir);
-	dircopy($fromdir,$todir) or die $!;
-	# $fromdir = $cfg->{source}.'/fancybox';
-	# $todir = $cfg->{public}.'/fancybox';
-	# $self->createdirectory($todir);
-	# dircopy($fromdir,$todir) or die $!;
 	print " OK \n";
 }
 
