@@ -1,7 +1,7 @@
 package SPP;
 use vars qw($VERSION @ISA @EXPORT);
 require Exporter;
-our $VERSION = "0.8.1";
+our $VERSION = "0.8.2";
 
 use Cwd;
 use LWP::Simple;
@@ -13,6 +13,9 @@ use Data::Dumper;
 use Module::Find;
 use Text::Markdown 'markdown';
 use File::Copy::Recursive qw(dircopy);
+use Archive::Tar;
+use File::Find::Rule;
+use Cwd;
 
 sub new{
 	my $class = shift;
@@ -325,8 +328,6 @@ sub copy2public {
 	print " OK \n";
 }
 
-use File::Find::Rule;
-use Cwd;
 sub buildFileIndex {
 		my ($self) = @_;
 		# my $cwd = getcwd();
@@ -358,6 +359,24 @@ sub sidebarTagCatLinks{
   	$sidebartag .= sprintf "<a href='/blog/tags/%s'>%s (%s)</a> ", $tagkey, $tagkey, $tags->{$tagkey};
 	}
 	return ($cat,$sidebartag);
+}
+
+sub createtarball{
+	my ($self) = @_;
+  # Create a new tar object:
+	my $tar = Archive::Tar->new();
+	chdir("output");
+	# Add some files:
+	$tar->add_files( <*> );
+	
+	# Finished:
+	$tar->write( 'file.tar' );
+	
+	# Now extract:
+	# my $tar = Archive::Tar->new();
+	# $tar->read( 'file.tar' );
+	# $tar->extract();
+	return $self;
 }
 
 1;

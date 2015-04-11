@@ -102,6 +102,7 @@ $spp->copy2public();
 print " OK ";
 printf STDERR " Time: %.6fs\n", time - $pstart if($profiling);
 
+$spp->createtarball();
 
 # system("./rsync");
 
