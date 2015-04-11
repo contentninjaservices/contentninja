@@ -1,7 +1,7 @@
 package SPP;
 use vars qw($VERSION @ISA @EXPORT);
 require Exporter;
-our $VERSION = "0.8.0";
+our $VERSION = "0.8.1";
 
 use Cwd;
 use LWP::Simple;
@@ -34,7 +34,7 @@ sub readconfig {
   my $hash = {};
   $cfg->{basename} = basename($dir);
   $cfg->{dirname} = dirname($dir);
-  my $config_file = "ninja.config";
+  my $config_file = "source/ninja.config";
   local *CF;
   open(CF,'<'.$config_file) or die "Open $config_file: $!";
   read(CF, my $data, -s $config_file);
