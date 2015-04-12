@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="/themefiles/stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="/themefiles/stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="/themefiles/stylesheets/print.css" media="print">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>{{ pagetitle }}</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+				<header>
+          <h1><a href="/">{{ pagetitle }}</a></h1>
+          <h2>{{ pagesubtitle }}</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+<!--
+          <a href="https://github.com/contentninjaservices/contentninja/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/contentninjaservices/contentninja/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/contentninjaservices/contentninja" id="view-on-github" class="button"><span>View on GitHub</span></a>
+-->
+        </section>
+        </header>
+					<div id="sidebar">
+						<div id="recent-posts-3" class="block widget_recent_entries">
+							<ul>
+								<li><a href='/'>Start</a></li>
+								<li><a href='http://contentninja-services'>ContentNinja Homepage</a></li>
+								<li><a href='/howto'></a>
+									<!-- 
+									<ul>
+										<li><a href='/configuration/configfile.html'>Configfile</a></li>
+										<li><a href='/configuration/yourfirstpage.html'>Your first page</a></li>
+										<li><a href='/configuration/layout.html'>Layout files</a></li>
+									</ul>
+									-->
+								</li>
+							</ul>
+						</div>
+					</div>
+        </header>
+
+        <hr>
+
+				{% content %}
+
+				{% include footer.html %}
+        
+      </div>
+    </div>
+		<div style="position:absolute; top:30px; left:30px;">
+			<a href="/"><img src="/themefiles/images/ninja.png" style="width:70%"></a>
+		</div>
+  </body>
+</html>
