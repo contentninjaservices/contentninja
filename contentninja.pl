@@ -86,8 +86,8 @@ foreach my $filename (@filelist) {
 	# $foo =~ s/\{% recentposts %\}/$recentposts/eg;
 	my $pagnition = "";
 	$foo =~ s/\{% pagnition %\}/$pagnition/eg;
-	$foo =~ s/\{\{ pagetitle \}\}/$cfg->{site.title}/eg;
-	$foo =~ s/\{\{ pagesubtitle \}\}/$cfg->{site.subtitle}/eg;
+	$foo =~ s/\{\{ pagetitle \}\}/$cfg->{sitetitle}/eg;
+	$foo =~ s/\{\{ pagesubtitle \}\}/$cfg->{sitesubtitle}/eg;
 	# printf "Test: %s - %s\n" , $cfg->{public}."/".$dir, $filebase;
 	$spp->output($foo,$cfg->{public}."/$dir","$filebase.html");
 }
