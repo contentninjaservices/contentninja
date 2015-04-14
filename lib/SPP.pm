@@ -19,7 +19,9 @@ use Cwd;
 
 sub new{
 	my $class = shift;
-	my $self = {};
+	my $self = {
+		"menu" => undef,
+	};
 	bless $self, $class;
 	$self->readconfig();
 	# rmtree(public);
@@ -106,7 +108,13 @@ sub debugwait{
   }
   return $self;
 }
-
+sub addmenuentry{
+	my ($self,$menuentry) = @_;
+	printf ("test: $menuentry\n");
+	my @arr = split(' ', $menuentry);
+	$self->{"menu"} .= sprintf "<li><a href=\"%s\">%s</a></li>", $arr[0], $arr[1];
+	return self;
+}
 sub toggledebug{
   my ($self) = @_;
   my $debug = $self->getfromhash('cfg','debug');

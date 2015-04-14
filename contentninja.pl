@@ -78,21 +78,29 @@ foreach my $filename (@filelist) {
 	$content =~ s/\{\{ title \}\}/$posttitle/eg;
 	$content = $spp->loadmodules($content);
 	$content = $spp->searchincludes($content); 
-	my $foo = $spp->loadlayout($postlayout);
-	$foo = $spp->searchincludes($foo); 
-	$foo =~ s/\{% content %\}/$content/eg;
-	# $foo =~ s/\{% categories %\}/$cat/eg;
-	# $foo =~ s/\{% tags %\}/$sidebartag/eg;
-	# $foo =~ s/\{% recentposts %\}/$recentposts/eg;
+	my $page = $spp->loadlayout($postlayout);
+	$page = $spp->searchincludes($page); 
+	$page =~ s/\{% content %\}/$content/eg;
 	my $pagnition = "";
-	$foo =~ s/\{% pagnition %\}/$pagnition/eg;
-	$foo =~ s/\{\{ pagetitle \}\}/$cfg->{sitetitle}/eg;
-	$foo =~ s/\{\{ pagesubtitle \}\}/$cfg->{sitesubtitle}/eg;
-	# printf "Test: %s - %s\n" , $cfg->{public}."/".$dir, $filebase;
-	$spp->output($foo,$cfg->{public}."/$dir","$filebase.html");
+	$page =~ s/\{% pagnition %\}/$pagnition/eg;
+	$page =~ s/\{\{ pagetitle \}\}/$cfg->{sitetitle}/eg;
+	$page =~ s/\{\{ pagesubtitle \}\}/$cfg->{sitesubtitle}/eg;
+	if ( $pheader->{menu} ) {
+		$spp->addmenuentry($pheader->{menu});
+	}
+	$spp->output($page,$cfg->{public}."/$dir","$filebase.html");
+	$pheader->{menu} = ""; 
 }
 print " OK \n";
 printf STDERR " Time: %.6fs\n", time - $pstart if($profiling);
+
+# navigation
+my $nav = $spp->include("navigation.html"); 
+my $navigation = $spp->{"menu"};
+$nav =~ s/\{% navigation %\}/$navigation/eg;
+$spp->output($nav,$cfg->{public},"/navigation.html");
+
+
 
 #####################################
 #
