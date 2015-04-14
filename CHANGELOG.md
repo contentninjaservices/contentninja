@@ -1,4 +1,11 @@
 
+## V0.8.3 (15/04/2015)
+
+	* rename var foo to page
+  * add navigation links to header 
+  * add navigation proccessing.
+  * add jquery for navigations
+
 ## V0.8.2 (11/04/2015)
 
   * add create tarball. For ContentNinja Saas
