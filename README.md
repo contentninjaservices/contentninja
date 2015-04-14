@@ -64,7 +64,7 @@ Upon request, the page will also be distributed directly to one or more servers.
 
 #### Installation and configuration.
 
-Instructions for installation and configuration you can find [here](/installation/).
+Instructions for installation and configuration you can find [here](http://contentninja.services/installation/).
 
 
 
