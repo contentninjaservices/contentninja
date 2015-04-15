@@ -11,7 +11,7 @@ sub replacer{
 	my ($self,$val) = @_;
 	# my $ret = $val =~ s/\{/\&\#123;/gsm;
 	# my $ret = $ret =~ s/\&/\&lt;/gsm;
-	my $and = chr(123); # '{';
+	my $and = chr(60).chr(94); # '{';
 	my $lt = '<';
 	$val =~ s/\{/$and/gsx;
 	$val =~ s/\&/$lt/gsx;
