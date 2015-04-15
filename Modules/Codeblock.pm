@@ -1,5 +1,7 @@
 package Modules::Codeblock;
 
+use MIME::Base64;
+
 sub new{
 	my $class = shift;
 	my ($self) = {};
@@ -16,7 +18,9 @@ sub replacer{
 	$val =~ s/\{/$and/gsx;
 	$val =~ s/\&/$lt/gsx;
 	# print "Test: $val\n";
-	return $val
+	my $enc = encode_base64($val);
+	$return = "<script>var decodedString = Base64.decode($enc);</script>";
+	return $return; 
 }
 
 sub run{
