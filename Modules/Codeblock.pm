@@ -18,7 +18,7 @@ sub replacer{
 	$val =~ s/\{/$and/gsx;
 	$val =~ s/\&/$lt/gsx;
 	# print "Test: $val\n";
-	my $enc = encode_base64($val);
+	my $enc = encode_base64("<pre class=\"code\"><code class=\"code\">".$val."<\/code><\/pre>");
 	$return = "<script>var decodedString = Base64.decode($enc); document.write(decodedString); </script>";
 	return $return; 
 }
@@ -33,7 +33,8 @@ sub run{
 	$replaced = $self->replacer($val);
 	## # printf "Replaced: %s\n" , $replaced;
 	# $text =~s/\{% codeblock.*?%\}(.*?)\{% endcodeblock %\}/<pre class="code"><code class="code">$1<\/code><\/pre>/gsm;
-	$text =~s/\{% codeblock.*?%\}(.*?)\{% endcodeblock %\}/<pre class="code"><code class="code">$replaced<\/code><\/pre>/gsm;
+	# $text =~s/\{% codeblock.*?%\}(.*?)\{% endcodeblock %\}/<pre class="code"><code class="code">$replaced<\/code><\/pre>/gsm;
+	$text =~s/\{% codeblock.*?%\}(.*?)\{% endcodeblock %\}/$replaced/gsm;
 	## print $text;
 	return $text;
 }
