@@ -11,7 +11,7 @@ sub run{
 	my ($self,$text) = @_;
 	my $output = "";
 	# return $text; 
-	print "Plugin: Gallery loaded.\n";
+	# print "Plugin: Gallery loaded.\n";
 	my $gallery = $text;
 	# $gallery =~ s/\{% gallery %\}\n(.*\n)\{% endgallery %\}/$1/gs;
 	# my (@i,@a) = $gallery =~ /\{% gallery %\}(.*?\.(jpg|gif|jpeg|png)):(.*?)\{% endgallery %\}/gm;
