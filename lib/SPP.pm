@@ -266,7 +266,7 @@ sub loadmodules{
 	my ($self, $body) = @_;
 	@found = usesub Modules;
 	foreach (@found) {
-  	# print "Found: $_\n";
+  	print "Found: $_\n";
   	$modulname = $_;
   	eval "use $modulname";
   	my $module = $modulname->new();
