@@ -265,7 +265,8 @@ sub searchincludes() {
 sub loadmodules{
 	my ($self, $body) = @_;
 	my $mods;
-	my $cfgmods = $self->getthehash("cfg");
+	my $cfg = $self->getthehash("cfg");
+	my $cfgmods = $cfg->{"modules"}; 
 	# my @found = usesub Modules;
 	my @found = split(" ", $cfgmods);
 	foreach (@found) {
