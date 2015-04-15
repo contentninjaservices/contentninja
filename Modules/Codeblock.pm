@@ -18,7 +18,7 @@ sub replacer{
 sub run{
 	my ($self,$text) = @_;
 	print "Plugin: Codeblock loaded.\n";
-	$text =~ s/\{% codeblock.*?%\}(.*?)\{% endcodeblock %\}/<pre class="code"><code class="code">$self->replacer($1)<\/code><\/pre>/eg;
+	$text =~s/\{% codeblock.*?%\}(.*?)\{% endcodeblock %\}/<pre class="code"><code class="code">$self->replacer($1)<\/code><\/pre>/egx;
 	return $text;
 }
 
