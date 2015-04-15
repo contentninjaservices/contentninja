@@ -11,8 +11,10 @@ sub replacer{
 	my ($self,$val) = @_;
 	# my $ret = $val =~ s/\{/\&\#123;/gsm;
 	# my $ret = $ret =~ s/\&/\&lt;/gsm;
-	$val =~ s/\{/char(38)\#123;/eg;
-	$val =~ s/\&/\&lt;/eg;
+	my $and = '&';
+	my $lt = '<';
+	$val =~ s/\{/$and\#123;/eg;
+	$val =~ s/\&/$lt;/eg;
 	print "Test: $val\n";
 	return $val
 }
