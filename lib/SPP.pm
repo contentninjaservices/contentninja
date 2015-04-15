@@ -270,7 +270,7 @@ sub loadmodules{
 	my @found = usesub Modules;
 	# my @found = split(" ", $cfgmods);
 	foreach (sort @found) {
-  	# print "Found: $_\n";
+  	print "Found: $_\n";
   	$modulname = $_;
   	eval "use $modulname";
   	my $module = $modulname->new();
