@@ -110,7 +110,7 @@ sub debugwait{
 }
 sub addmenuentry{
 	my ($self,$menuentry) = @_;
-	printf ("test: $menuentry\n");
+	# printf ("test: $menuentry\n");
 	my @arr = split(' ', $menuentry);
 	$self->{"menu"} .= sprintf "<li><a href=\"%s\">%s</a></li>", $arr[0], $arr[1];
 	return self;
@@ -325,6 +325,15 @@ sub createdirectory {
 	return $self;
 }
 
+sub copyotherfiles {
+	my ($self,$dir, $filename ) = @_;
+	my $cfg = $self->getthehash("cfg");
+	$todir = $cfg->{public} . $dir . "/$filename";
+	dircopy('source/',$cfg->{public}) or die $!;
+	return $self;
+}
+
+
 sub copy2public {
 	my ($self,@array) = @_;
 	print "Kopiere CSS und Images ...";
@@ -336,13 +345,25 @@ sub copy2public {
 	print " OK \n";
 }
 
-sub buildFileIndex {
+sub buildFileIndexNonMd {
 		my ($self) = @_;
-		# my $cwd = getcwd();
 		my $cwd = "source";
 		my $filelist;
-    # open ($filelist, ">", "filelist.txt") || die $!;
-    # File find rule
+    my $excludeDirs = File::Find::Rule->directory
+                              ->name('_posts', 'public', '_includes', '_layout', 'fancybox') # Provide specific list of directories to *not* scan
+                              ->prune          # don't go into it
+                              ->discard;       # don't report it
+    my $includeFiles = File::Find::Rule->file
+                             ->name('*.markdown', '*.html', '*.jpg'); # search by file extensions
+    my @files = File::Find::Rule->or( $excludeDirs, $includeFiles )
+                                ->in($cwd);
+    return @files;
+}
+
+sub buildFileIndex {
+		my ($self) = @_;
+		my $cwd = "source";
+		my $filelist;
     my $excludeDirs = File::Find::Rule->directory
                               ->name('_posts', 'public', '_includes', '_layout', 'fancybox') # Provide specific list of directories to *not* scan
                               ->prune          # don't go into it
@@ -351,9 +372,6 @@ sub buildFileIndex {
                              ->name('*.markdown', '*.html'); # search by file extensions
     my @files = File::Find::Rule->or( $excludeDirs, $includeFiles )
                                 ->in($cwd);
-    # print $filelist map { "$_\n" } @files;
-    # printf "Test: %s\n", $_ foreach (@files);
-    # return \$filelist;
     return @files;
 }
 

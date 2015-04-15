@@ -32,6 +32,7 @@ print "Generate Page...\n";
 ###########################################r
 # Pages generieren
 #
+
 print "Generiere pages ...";
 my @filelist = $spp->buildFileIndex();
 foreach my $filename (@filelist) {
@@ -43,7 +44,7 @@ foreach my $filename (@filelist) {
 	my $pheader = $spp->readheader($postheader);
 	my $postlayout = $pheader->{"layout"}; # spp->readheader($postheader);
 	my $posttitle = $pheader->{"title"};
-	printf "Page Layout: %s - %s\n", $postlayout, $posttitle; 
+	# printf "Page Layout: %s - %s\n", $postlayout, $posttitle; 
 	$posttitle 		=~ s/\"//g;
 	my $pagetitle = $posttitle;
 	# my $posttitle2 = $pheader->{"title"};
@@ -101,11 +102,20 @@ $nav =~ s/\{% navigation %\}/$navigation/eg;
 $spp->output($nav,$cfg->{public},"/navigation.html");
 
 
+print "# copy all to public folder \n";
 
 #####################################
 #
 # copy all to public folder 
 #
+### Other files
+my $otherfiles = $spp->buildFileIndexNonMd();
+foreach my $filename (@filelist) {
+	my($dir, $filebase, $fileext) = $filename =~ /^source\/((?:[\w\-\.]+\/)*)([\w\-\.]+)\.(.*)$/;
+	$spp->copyotherfiles($dir, $filebase.".".$fileext);
+}
+
+###
 print "Copy all files to public folder ";
 $spp->copy2public();
 print " OK ";
