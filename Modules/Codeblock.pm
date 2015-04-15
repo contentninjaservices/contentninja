@@ -19,6 +19,7 @@ sub replacer{
 	# $val =~ s/\&/$lt/gsx;
 	print "Test: $val\n";
 	my $enc = encode_base64("<pre class=\"code\"><code class=\"code\">".$val."<\/code><\/pre>");
+	$enc =~ s/\n//eg;
 	$return = "<script>var decodedString = Base64.decode(\"$enc\"); document.write(decodedString); </script>";
 	return $return; 
 }
