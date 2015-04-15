@@ -269,13 +269,13 @@ sub loadmodules{
 	my $cfgmods = $cfg->{"modules"}; 
 	# my @found = usesub Modules;
 	my @found = split(" ", $cfgmods);
-	foreach (@found) {
+	foreach (sort @found) {
   	print "Found: $_\n";
   	$modulname = $_;
-  	eval "use " . $modulname;
-  	$mods->{$module} = $modulname->new();
+  	eval "use $modulname";
+  	my $module = $modulname->new();
 		# print "Body: XXX" . $body . "XXX\n";
-  	$body = $mods->{$module}->run($body);
+  	$body = $module->run($body);
 	}
 	return $body;
 }
