@@ -3,7 +3,7 @@
 Creating pages with Markdown, generate and copy to one or more servers. 
 Your server does require PHP, Perl, ASP.net, Java. No MySQL, Postgres or MS SQL database is required.
 
-Version: 0.1.0
+Version: 0.8.5
 
 #### Why Content Ninja
 

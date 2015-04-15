@@ -1,4 +1,9 @@
 
+## V0.8.35 (15/04/2015)
+
+	* Fix gallery module
+
+
 ## V0.8.3 (15/04/2015)
 
 	* rename var foo to page
