@@ -9,10 +9,12 @@ sub new{
 
 sub replacer{
 	my ($self,$val) = @_;
-	my $ret = $val =~ s/\{/\&\#123;/gsm;
-	my $ret = $ret =~ s/\&/\&lt;/gsm;
-	print "Test: $ret\n";
-	return $ret
+	# my $ret = $val =~ s/\{/\&\#123;/gsm;
+	# my $ret = $ret =~ s/\&/\&lt;/gsm;
+	my $val =~ s/\{/\&\#123;/eg;
+	my $val =~ s/\&/\&lt;/eg;
+	print "Test: $val\n";
+	return $val
 }
 
 sub run{
