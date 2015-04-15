@@ -24,7 +24,7 @@ sub run{
   $temp = $text; 	
 	$val = $temp =~ s/\{% codeblock.*?%\}(.*?)\{% endcodeblock %\}/$1/eg;
 	# printf "Val: %s\n Text: %s\n", $text; 
-	$replaced = $self->replacer($text);
+	$replaced = $self->replacer($val);
 	# printf "Replaced: %s\n" , $replaced;
 	# $text =~s/\{% codeblock.*?%\}(.*?)\{% endcodeblock %\}/<pre class="code"><code class="code">$1<\/code><\/pre>/gsx;
 	$text =~s/\{% codeblock.*?%\}(.*?)\{% endcodeblock %\}/<pre class="code"><code class="code">$replaced<\/code><\/pre>/gsx;
