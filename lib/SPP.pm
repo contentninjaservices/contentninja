@@ -271,6 +271,7 @@ sub loadmodules{
 	my @found = split(" ", $cfgmods);
 	foreach (@found) {
   	print "Found: $_\n";
+		eval "use lib('../Modules');";
   	$modulname = $_;
   	eval "use $_";
   	$mods->{$module} = $modulname->new();
