@@ -7,10 +7,16 @@ sub new{
 	return $self;
 }
 
+sub replacer{
+	my ($self,$val) = @_;
+	my $ret = $val =~ s/\{/&#123;/m;
+	return $ret
+}
+
 sub run{
 	my ($self,$text) = @_;
 	# print "Plugin: Codeblock loaded.\n";
-	$text =~ s/\{% codeblock.*?%\}(.*?)\{% endcodeblock %\}/<pre class="code"><code class="code">$1<\/code><\/pre>/gsm;
+	$text =~ s/\{% codeblock.*?%\}(.*?)\{% endcodeblock %\}/<pre class="code"><code class="code">$self->replacer($1)<\/code><\/pre>/gsm;
 	return $text;
 }
 
