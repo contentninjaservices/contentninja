@@ -33,21 +33,22 @@ sub run{
 	  	$output .= sprintf "<a href=\"%s\" class=\"fancybox\" rel=\"group\" title=\"%s\"><img src=\"%s_m.%s\" alt=\"%s\" height=\"200\" /></a>\n", $file, $alt, $thumb, $ext, $alt;
 		}
 	}
-	my $stylefix = "<!-- Fix FancyBox style for OctoPress -->
-<style type=\"text/css\">
-  .fancybox-wrap { position: fixed !important; }
-  .fancybox-opened {
-    -webkit-border-radius: 4px !important;
-       -moz-border-radius: 4px !important;
-            border-radius: 4px !important;
-  }
-  .fancybox-close, .fancybox-prev span, .fancybox-next span {
-    background-color: transparent !important;
-    border: 0 !important;
-  }
-</style>";
+# 	my $stylefix = "<!-- Fix FancyBox style for OctoPress -->
+# <style type=\"text/css\">
+#   .fancybox-wrap { position: fixed !important; }
+#   .fancybox-opened {
+#     -webkit-border-radius: 4px !important;
+#        -moz-border-radius: 4px !important;
+#             border-radius: 4px !important;
+#   }
+#   .fancybox-close, .fancybox-prev span, .fancybox-next span {
+#     background-color: transparent !important;
+#     border: 0 !important;
+#   }
+# </style>";
+	my $styleprefix = ""; 
 	$output = "<div id=\"imagediv\"><ul>$output</div><div style=\"clear:left;\"></div>\n";
-	$output = $output . "\n\$(\"a.fancybox\").fancybox();\n"
+	$output = $output . "\n\$(document).ready(function() {\n    \$(\".fancybox\").fancybox();\n  });\n</script>\n";
 	$text =~ s/(\{% gallery %\}.*\{% endgallery %\})/$stylefix $output/sm;
 	# print "Gallery ... $text"; 
 	# print "Text "  . $text . "\n";
