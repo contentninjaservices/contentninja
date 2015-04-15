@@ -21,9 +21,11 @@ sub run{
 	my ($self,$text) = @_;
 	print "Plugin: Codeblock loaded.\n";
 	# $text =~s/\{% codeblock.*?%\}(.*?)\{% endcodeblock %\}/<pre class="code"><code class="code">$self->replacer($1)<\/code><\/pre>/gsx;
+	
 	$val = $text =~ s/\{% codeblock.*?%\}(.*?)\{% endcodeblock %\}/$1/egs;
-	printf "Val: %s\n Text: %s\n", $text; 
+	# printf "Val: %s\n Text: %s\n", $text; 
 	$replaced = $self->replacer($val);
+	printf "Replaced: %s\n" , $replaced;
 	$text =~s/\{% codeblock.*?%\}(.*?)\{% endcodeblock %\}/<pre class="code"><code class="code">$replaced<\/code><\/pre>/gsx;
 	# print $text;
 	return $text;
