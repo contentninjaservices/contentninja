@@ -48,7 +48,7 @@ sub run{
 # </style>";
 	my $styleprefix = ""; 
 	$output = "<div id=\"imagediv\"><ul>$output</div><div style=\"clear:left;\"></div>\n";
-	$output = $output . "\n\$(document).ready(function() {\n    \$(\".fancybox\").fancybox();\n  });\n</script>\n";
+	$output = $output . "\n<script>\$(document).ready(function() {\n    \$(\".fancybox\").fancybox();\n  });\n</script>\n";
 	$text =~ s/(\{% gallery %\}.*\{% endgallery %\})/$stylefix $output/sm;
 	# print "Gallery ... $text"; 
 	# print "Text "  . $text . "\n";
