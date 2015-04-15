@@ -13,7 +13,7 @@ sub replacer{
 	# my $ret = $ret =~ s/\&/\&lt;/gsm;
 	my $and = '&';
 	my $lt = '<';
-	$val =~ s/\{/$and\#123;/eg;
+	$val =~ s/\{/$and;/eg;
 	$val =~ s/\&/$lt;/eg;
 	print "Test: $val\n";
 	return $val
