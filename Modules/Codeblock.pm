@@ -22,11 +22,11 @@ sub run{
 	print "Plugin: Codeblock loaded.\n";
 	# $text =~s/\{% codeblock.*?%\}(.*?)\{% endcodeblock %\}/<pre class="code"><code class="code">$self->replacer($1)<\/code><\/pre>/gsx;
 	
-	$val = $text =~ s/\{% codeblock.*?%\}(.*?)\{% endcodeblock %\}/$1/egs;
+	# $val = $text =~ s/\{% codeblock.*?%\}(.*?)\{% endcodeblock %\}/$1/egs;
 	# printf "Val: %s\n Text: %s\n", $text; 
-	$replaced = $self->replacer($text);
-	printf "Replaced: %s\n" , $replaced;
-	$text =~s/\{% codeblock.*?%\}(.*?)\{% endcodeblock %\}/<pre class="code"><code class="code">$replaced<\/code><\/pre>/gsx;
+	# $replaced = $self->replacer($text);
+	# printf "Replaced: %s\n" , $replaced;
+	$text =~s/\{% codeblock.*?%\}(.*?)\{% endcodeblock %\}/<pre class="code"><code class="code">$1<\/code><\/pre>/gsx;
 	# print $text;
 	return $text;
 }
