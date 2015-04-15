@@ -9,7 +9,7 @@ sub new{
 
 sub replacer{
 	my ($self,$val) = @_;
-	my $ret = $val =~ s/\{/\&#123;/eg;
+	my $ret = $val =~ s/\{/\&\#123;/eg;
 	return $ret
 }
 
