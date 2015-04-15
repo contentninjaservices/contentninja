@@ -264,12 +264,13 @@ sub searchincludes() {
 # Modules 
 sub loadmodules{
 	my ($self, $body) = @_;
-	@found = usesub Modules;
+	my $mods;
+	my @found = usesub Modules;
 	foreach (@found) {
   	print "Found: $_\n";
   	$modulname = $_;
   	eval "use $modulname";
-  	my $mods->{$module} = $modulname->new();
+  	$mods->{$module} = $modulname->new();
 		# print "Body: XXX" . $body . "XXX\n";
   	$body = $mods->{$module}->run($body);
 	}
