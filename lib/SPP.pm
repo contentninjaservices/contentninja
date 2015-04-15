@@ -267,8 +267,8 @@ sub loadmodules{
 	my $mods;
 	my $cfg = $self->getthehash("cfg");
 	my $cfgmods = $cfg->{"modules"}; 
-	# my @found = usesub Modules;
-	my @found = split(" ", $cfgmods);
+	my @found = usesub Modules;
+	# my @found = split(" ", $cfgmods);
 	foreach (sort @found) {
   	print "Found: $_\n";
   	$modulname = $_;
