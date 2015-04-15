@@ -269,9 +269,9 @@ sub loadmodules{
   	print "Found: $_\n";
   	$modulname = $_;
   	eval "use $modulname";
-  	my $module = $modulname->new();
+  	my $mods->{$module} = $modulname->new();
 		# print "Body: XXX" . $body . "XXX\n";
-  	$body = $module->run($body);
+  	$body = $mods->{$module}->run($body);
 	}
 	return $body;
 }
