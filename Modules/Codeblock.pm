@@ -10,6 +10,8 @@ sub new{
 sub replacer{
 	my ($self,$val) = @_;
 	my $ret = $val =~ s/\{/\&\#123;/eg;
+	my $ret = $ret =~ s/\&/\&lt;/eg;
+	print "Test: $ret\n";
 	return $ret
 }
 
