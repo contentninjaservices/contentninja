@@ -272,7 +272,7 @@ sub loadmodules{
 	foreach (@found) {
   	print "Found: $_\n";
   	$modulname = $_;
-  	eval "use $modulname";
+  	eval "use $_";
   	$mods->{$module} = $modulname->new();
 		# print "Body: XXX" . $body . "XXX\n";
   	$body = $mods->{$module}->run($body);
