@@ -47,7 +47,7 @@ sub run{
   }
 </style>";
 	$output = "<div id=\"imagediv\"><ul>$output</div><div style=\"clear:left;\"></div>\n";
-	$output .= "\$(\"a.grouped_elements\").fancybox();\n"
+	$output .= "\$(\"a.fancybox\").fancybox();\n"
 	$text =~ s/(\{% gallery %\}.*\{% endgallery %\})/$stylefix $output/sm;
 	# print "Gallery ... $text"; 
 	# print "Text "  . $text . "\n";
