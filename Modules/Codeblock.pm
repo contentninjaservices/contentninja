@@ -10,15 +10,12 @@ sub new{
 }
 
 sub replacer{
-	my ($self,$value) = @_;
-	# my $ret = $val =~ s/\{/\&\#123;/gsm;
-	# my $ret = $ret =~ s/\&/\&lt;/gsm;
-	# my $and = chr(60).chr(94); # '{';
-	# my $lt = '<';
-	# $val =~ s/\{/$and/gsx;
-	# $val =~ s/\&/$lt/gsx;
-	print "Test: $value\n";
-	my $enc = encode_base64($value);
+	my ($self,@value) = @_;
+	my $code = '';
+	foreach my $test (@value) {
+		$code = $code . $test;
+	}
+	my $enc = encode_base64($code);
 	$enc =~ s/\n//eg;
 	$return = "<script>var decodedString = Base64.decode(\"$enc\"); document.write(\'<pre class=\"code\"><code class=\"code\">\'+ escapeHtml(decodedString) + \'<\/code><\/pre>\'); </script>";
 	return $return; 
@@ -27,17 +24,10 @@ sub replacer{
 sub run{
 	my ($self,$text) = @_;
 	# print "Plugin: Codeblock loaded.\n";
-	# $txext =~s/\{% codeblock.*?%\}(.*?)\{% endcodeblock %\}/<pre class="code"><code class="code">$self->replacer($1)<\/code><\/pre>/gsx;
-  my $val = $text; 	
-	$val =~ s/\{% codeblock.*?%\}(.*?)\{% endcodeblock %\}/$1/eg;
-	# $replaced =~ s/\{% codeblock.*?%\}(.*?)\{% endcodeblock %\}/$self->replacer($1)/eg;
-	## # printf "Val: %s\n Text: %s\n", $val; 
-	$replaced = $self->replacer($val);
-	## # printf "Replaced: %s\n" , $replaced;
-	# $text =~s/\{% codeblock.*?%\}(.*?)\{% endcodeblock %\}/<pre class="code"><code class="code">$1<\/code><\/pre>/gsm;
-	# $text =~s/\{% codeblock.*?%\}(.*?)\{% endcodeblock %\}/<pre class="code"><code class="code">$replaced<\/code><\/pre>/gsm;
+  my $vals = $text; 	
+	my (@ttt) = $vals=~ /\{% codeblock %\}(.*?)\{% endcodeblock %\}/gsm;
+	$replaced = $self->replacer(@ttt);
 	$text =~s/\{% codeblock.*?%\}(.*?)\{% endcodeblock %\}/$replaced/gsm;
-	## print $text;
 	return $text;
 }
 
