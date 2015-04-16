@@ -18,9 +18,9 @@ sub replacer{
 	# $val =~ s/\{/$and/gsx;
 	# $val =~ s/\&/$lt/gsx;
 	print "Test: $value\n";
-	my $enc = encode_base64("<pre class=\"code\"><code class=\"code\">".$value."<\/code><\/pre>");
+	my $enc = encode_base64($value);
 	$enc =~ s/\n//eg;
-	$return = "<script>var decodedString = Base64.decode(\"$enc\"); document.write(decodedString); </script>";
+	$return = "<script>var decodedString = Base64.decode(\"$enc\"); document.write(\'<pre class=\"code\"><code class=\"code\">\'+ decodedString + \'<\/code><\/pre>\'); </script>";
 	return $return; 
 }
 
