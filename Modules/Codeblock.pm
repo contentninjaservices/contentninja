@@ -10,15 +10,15 @@ sub new{
 }
 
 sub replacer{
-	my ($self,$val) = @_;
+	my ($self,$value) = @_;
 	# my $ret = $val =~ s/\{/\&\#123;/gsm;
 	# my $ret = $ret =~ s/\&/\&lt;/gsm;
 	# my $and = chr(60).chr(94); # '{';
 	# my $lt = '<';
 	# $val =~ s/\{/$and/gsx;
 	# $val =~ s/\&/$lt/gsx;
-	print "Test: $val\n";
-	my $enc = encode_base64("<pre class=\"code\"><code class=\"code\">".$val."<\/code><\/pre>");
+	print "Test: $value\n";
+	my $enc = encode_base64("<pre class=\"code\"><code class=\"code\">".$valie."<\/code><\/pre>");
 	$enc =~ s/\n//eg;
 	$return = "<script>var decodedString = Base64.decode(\"$enc\"); document.write(decodedString); </script>";
 	return $return; 
