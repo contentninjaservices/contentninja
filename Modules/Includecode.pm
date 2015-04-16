@@ -1,5 +1,11 @@
 package Modules::Includecode;
 
+#
+# {% includecode 1:path/to/codefilea.code %}
+# {% includecode 2:path/to/codefileb.code %}
+# {% includecode 3:path/to/codefilec.code %}
+#
+
 use MIME::Base64;
 
 sub new{

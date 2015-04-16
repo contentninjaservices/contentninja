@@ -1,5 +1,10 @@
 package Modules::Codeblock;
-
+#
+# {% codeblock %}
+#
+#  your sourcecode 
+#	{% endcodeblock %}
+#
 use MIME::Base64;
 
 sub new{
