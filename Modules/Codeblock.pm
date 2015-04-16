@@ -36,7 +36,7 @@ sub run{
 	## # printf "Replaced: %s\n" , $replaced;
 	# $text =~s/\{% codeblock.*?%\}(.*?)\{% endcodeblock %\}/<pre class="code"><code class="code">$1<\/code><\/pre>/gsm;
 	# $text =~s/\{% codeblock.*?%\}(.*?)\{% endcodeblock %\}/<pre class="code"><code class="code">$replaced<\/code><\/pre>/gsm;
-	$text =~s/\{% codeblock.*?%\}(.*?)\{% endcodeblock %\}/$replaced/gsm;
+	$text =~s/\{% codeblock.*?%\}(.*?)\{% endcodeblock %\}/$replaced/eg;
 	## print $text;
 	return $text;
 }
