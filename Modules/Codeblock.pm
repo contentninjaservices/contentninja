@@ -12,8 +12,8 @@ sub new{
 sub replacer{
 	my ($self,@value) = @_;
 	my $code = '';
-	foreach my $test (@value) {
-		$code = $code . $test;
+	foreach my $text (@value) {
+		$code = $code . $text;
 	}
 	my $enc = encode_base64($code);
 	$enc =~ s/\n//eg;
@@ -25,8 +25,8 @@ sub run{
 	my ($self,$text) = @_;
 	# print "Plugin: Codeblock loaded.\n";
   my $vals = $text; 	
-	my (@ttt) = $vals=~ /\{% codeblock %\}(.*?)\{% endcodeblock %\}/gsm;
-	$replaced = $self->replacer(@ttt);
+	my (@codeblock) = $vals=~ /\{% codeblock %\}(.*?)\{% endcodeblock %\}/gsm;
+	$replaced = $self->replacer(@codeblock);
 	$text =~s/\{% codeblock.*?%\}(.*?)\{% endcodeblock %\}/$replaced/gsm;
 	return $text;
 }
