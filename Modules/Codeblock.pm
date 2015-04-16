@@ -11,11 +11,11 @@ sub new{
 
 sub replacer{
 	my ($self,@value) = @_;
-	my $code = '';
+	my ($enc,$code,$return) = '';
 	foreach my $text (@value) {
 		$code = $code . $text;
 	}
-	my $enc = encode_base64($code);
+	$enc = encode_base64($code);
 	$enc =~ s/\n//eg;
 	$return = "<script>var decodedString = Base64.decode(\"$enc\"); document.write(\'<pre class=\"code\"><code class=\"code\">\'+ escapeHtml(decodedString) + \'<\/code><\/pre>\'); </script>";
 	return $return; 
