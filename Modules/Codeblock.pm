@@ -30,7 +30,7 @@ sub run{
 	# $txext =~s/\{% codeblock.*?%\}(.*?)\{% endcodeblock %\}/<pre class="code"><code class="code">$self->replacer($1)<\/code><\/pre>/gsx;
   $val = $text; 	
 	# $val =~ s/\{% codeblock.*?%\}(.*?)\{% endcodeblock %\}/$1/eg;
-	$replaced =~ s/\{% codeblock.*?%\}(.*?)\{% endcodeblock %\}/replacer($1)/eg;
+	$replaced =~ s/\{% codeblock.*?%\}(.*?)\{% endcodeblock %\}/$self->replacer($1)/eg;
 	## # printf "Val: %s\n Text: %s\n", $val; 
 	# $replaced = $self->replacer($val);
 	## # printf "Replaced: %s\n" , $replaced;
