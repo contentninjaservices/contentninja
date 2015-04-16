@@ -10,17 +10,17 @@ sub new{
 sub run{
 	my ($self,$text) = @_;
 	my $output = "";
-	# return $text; 
+	# return $text;
 	# print "Plugin: Gallery loaded.\n";
 	my $gallery = $text;
 	# $gallery =~ s/\{% gallery %\}\n(.*\n)\{% endgallery %\}/$1/gs;
 	# my (@i,@a) = $gallery =~ /\{% gallery %\}(.*?\.(jpg|gif|jpeg|png)):(.*?)\{% endgallery %\}/gm;
-  # add multi galleries, regex with /gm; ist creapy. 
+  # add multi galleries, regex with /gm; ist creapy.
 	my (@i,@a) = $gallery =~ /\{% gallery %\}(.*?\.(jpg|gif|jpeg|png)):(.*?)\{% endgallery %\}/m;
 
 	# printf "Gal: %s - %s\n", @i, @a;
 	# printf "Gal:\n%s\n", $gallery;
-	
+
 	my @lines  = split(/\015\012|\012|\015/,$gallery);
 	foreach (@lines) {
 		# printf "Line: %s\n", $_;
@@ -46,11 +46,11 @@ sub run{
 #     border: 0 !important;
 #   }
 # </style>";
-	my $styleprefix = ""; 
+	my $styleprefix = "";
 	$output = "<div id=\"imagediv\"><ul>$output</div><div style=\"clear:left;\"></div>\n";
 	$output = $output . "\n<script>\$(document).ready(function() {\n    \$(\".fancybox\").fancybox();\n  });\n</script>\n";
 	$text =~ s/(\{% gallery %\}.*\{% endgallery %\})/$stylefix $output/sm;
-	# print "Gallery ... $text"; 
+	# print "Gallery ... $text";
 	# print "Text "  . $text . "\n";
 	return $text;
 }

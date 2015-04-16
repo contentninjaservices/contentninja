@@ -372,4 +372,19 @@ footer a:hover {
 /* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
 @media only screen and (max-width: 479px) { }
 
+ul#nav {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+ul#nav li {
+    float: left;
+		list-style-type: none;
+}
+
+ul#nav a {
+    display: block;
+}
 

@@ -11,11 +11,11 @@ sub new{
 
 sub replacer{
 	my ($self,@value) = @_;
-	my ($enc,$code,$return) = '';
-	foreach my $text (@value) {
-		$code = $code . $text;
+	my $code = '';
+	foreach my $test (@value) {
+		$code = $code . $test;
 	}
-	$enc = encode_base64($code);
+	my $enc = encode_base64($code);
 	$enc =~ s/\n//eg;
 	$return = "<script>var decodedString = Base64.decode(\"$enc\"); document.write(\'<pre class=\"code\"><code class=\"code\">\'+ escapeHtml(decodedString) + \'<\/code><\/pre>\'); </script>";
 	return $return; 
@@ -25,8 +25,8 @@ sub run{
 	my ($self,$text) = @_;
 	# print "Plugin: Codeblock loaded.\n";
   my $vals = $text; 	
-	my (@codeblock) = $vals=~ /\{% codeblock %\}(.*?)\{% endcodeblock %\}/gsm;
-	$replaced = $self->replacer(@codeblock);
+	my (@ttt) = $vals=~ /\{% codeblock %\}(.*?)\{% endcodeblock %\}/gsm;
+	$replaced = $self->replacer(@ttt);
 	$text =~s/\{% codeblock.*?%\}(.*?)\{% endcodeblock %\}/$replaced/gsm;
 	return $text;
 }

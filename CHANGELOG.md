@@ -1,5 +1,12 @@
 
-## V0.8.35 (15/04/2015)
+## V0.8.5.2 (16=04/2015)
+
+	* add codeinclude 
+  * navigation horizontal
+	* temporary second navigation 
+		* is in version 0.8.6 replaced by {% contentinclude %}
+
+## V0.8.5 (15/04/2015)
 
 	* Fix gallery module
 
