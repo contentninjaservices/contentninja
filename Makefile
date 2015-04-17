@@ -1,5 +1,5 @@
 
 install:
-	mkdir -p /opt/contentninja
-	cp -av ./* /opt/contentninja/
+	mkdir -p ~/Sites/contentninja
+	cp -av ./* ~/Sites/contentninja/
 
