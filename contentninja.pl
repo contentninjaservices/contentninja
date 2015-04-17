@@ -86,6 +86,7 @@ foreach my $filename (@filelist) {
 	$page =~ s/\{% pagnition %\}/$pagnition/eg;
 	$page =~ s/\{\{ pagetitle \}\}/$cfg->{sitetitle}/eg;
 	$page =~ s/\{\{ pagesubtitle \}\}/$cfg->{sitesubtitle}/eg;
+	$page =~ s/\{\{ sitelogo \}\}/$cfg->{sitelogo}/eg;
 	$page =~ s/\<\^/chr(123)/eg;
 	if ( $pheader->{menu} ) {
 		$spp->addmenuentry($pheader->{menu});
