@@ -2,6 +2,8 @@
 
 use strict;
 use warnings;
+use vars qw($VERSION @ISA @EXPORT);
+our $VERSION = "0.8.6";
 use Text::Markdown 'markdown';
 # use File::Copy::Recursive qw(dircopy);
 use lib ("./lib");
@@ -9,8 +11,8 @@ use Time::HiRes qw(time);
 use SPP;
 use Date::Manip;
 use POSIX qw(strftime);
-
 use Getopt::Long;
+
 my ($debug, $t, $d, $td, $dt ) = 0 ;
 my %h = ('debug' => \$debug, 't' => \$t, 'td' => \$td, 'dt' => \$dt);
 GetOptions ( 'debug', 't' => \$t , 'd' => \$d, 'td' => \$td, 'dt' => \$dt);
