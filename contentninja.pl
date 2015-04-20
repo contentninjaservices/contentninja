@@ -29,13 +29,14 @@ my $cfg = $spp->getthehash("cfg");
 
 my $profiling = $cfg->{debug};
 
-printf STDERR " Time: %.6fs\n", time - $pstart if($profiling);
-print "Generate Page...\n";
+#printf STDERR " Time: %.6fs\n", time - $pstart if($profiling);
+$spp->logging(sprintf "Time: %.6fs", time - $pstart) if($profiling);
+$spp->logging("Generate Page...");
 ###########################################r
 # Pages generieren
 #
 
-print "Generiere pages ...";
+$spp->logging("Generiere pages ...");
 my @filelist = $spp->buildFileIndex();
 foreach my $filename (@filelist) {
 	my($dir, $filebase, $fileext) = $filename =~ /^source\/((?:[\w\-\.]+\/)*)([\w\-\.]+)\.(markdown|html)$/;
@@ -95,8 +96,8 @@ foreach my $filename (@filelist) {
 	$spp->output($page,$cfg->{public}."/$dir","$filebase.html");
 	$pheader->{menu} = ""; 
 }
-print " OK \n";
-printf STDERR " Time: %.6fs\n", time - $pstart if($profiling);
+# print " OK \n";
+$spp->logging(sprintf (" Time: %.6fs", time - $pstart)) if($profiling);
 
 # navigation
 my $nav = $spp->include("navigation.html"); 
@@ -105,7 +106,7 @@ $nav =~ s/\{% navigation %\}/$navigation/eg;
 $spp->output($nav,$cfg->{public},"/navigation.html");
 
 
-print "# copy all to public folder \n";
+$spp->logging("# copy all to public folder.");
 
 #####################################
 #
@@ -119,10 +120,10 @@ foreach my $filename (@filelist) {
 }
 
 ###
-print "Copy all files to public folder ";
+$spp->logging("Copy all files to public folder ");
 $spp->copy2public();
-print " OK ";
-printf STDERR " Time: %.6fs\n", time - $pstart if($profiling);
+
+$spp->logging(sprintf(" Time: %.6fs\n", time - $pstart)) if($profiling);
 
 $spp->createtarball();
 

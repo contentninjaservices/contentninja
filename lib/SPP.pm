@@ -122,6 +122,15 @@ sub toggledebug{
   $self->settohash('cfg','debug',$debug);
   return $self;
 }
+
+sub logging{
+	my ($self,$text) = @_; 
+	my $fh=new IO::File($self->getfromhash("cfg","logfile"),'w') || return('1 Error: Unable to open logfile '.$self->getfromhash("cfg","logfile").': '.$!);
+	printf ( localtime() . "%s\n", $text);
+	$fh->close();
+	return $self;
+}
+
 #  /END
 #  Hashes und Variables
 #
@@ -163,7 +172,7 @@ sub splitcontent{
 }
 sub postmore{
 	my ($self, $postmore) = @_; 
-  my $part2 = "<script type=\"text/javascript\">
+  	my $part2 = "<script type=\"text/javascript\">
       \$(document).ready(function(){
         /* Hier der jQuery-Code */
         \$('#part" . $count . "-einblenden').click(function(){
@@ -182,12 +191,6 @@ sub postmore{
     <div id=\"part$count\">" . markdown($postmore) . "</div>";
 	return $part2;
 }
-#sub markdown{
-#	my ($self,$content) = @_;
-#	# $content = markdown($content);
-#	# print "Content: $content\n";
-#	return $content;
-#}
 
 sub readheader() {
   my ($self,$header) = @_;
@@ -340,13 +343,12 @@ sub copyotherfiles {
 
 sub copy2public {
 	my ($self,@array) = @_;
-	print "Kopiere CSS und Images ...";
+	$self->logging("Kopiere CSS und Images ...");
 	my $cfg = $self->getthehash("cfg");
 	$fromdir = "themes/" . $cfg->{theme} . '/themefiles';
 	$todir = $cfg->{public} . '/themefiles';
 	$self->createdirectory($todir);
 	dircopy($fromdir,$todir) or die $!;
-	print " OK \n";
 }
 
 sub buildFileIndexNonMd {
