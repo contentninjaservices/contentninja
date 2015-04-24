@@ -16,34 +16,46 @@ sub new{
 }
 
 sub run{
-	my ($self,$text) = @_;
-	my $output = "";
-	my $gallery = $text;
-	# while ( $gallery =~ /\{% gallery (.*)%\}(.*)\{% endgallery %\}/g ) {
-		my ($groupid,$lines) = $gallery =~ /\{% gallery (.*?|)%\}(.*?)\{% endgallery %\}/gsm;
-		my @lines  = split(/\015\012|\012|\015/,$lines);
-		# print "$id - $lines\n";
+  my ($self,$text) = @_;
+  # my $yid = $text;
+  while ( $text =~ /\{% gallery (.*) %\}/g ) {
+    my ($file) = $text =~ /\{% gallery (.*) %\}/;
+    my ($id,$file) = split(":", $file);
+    $self->{id} = $id;
+    my $gallery = $self->loadgallery($file) ;
+		# printf ("Test: %s File: %s\n", $id, $file);
+		my @lines  = split(/\015\012|\012|\015/,$gallery);
 		foreach my $line (@lines) {
-			# printf ("oneline: %s\n", $line);
-			my (@id,@files,@alttext) = $gallery =~ /\{% gallery (.*?|)%\}(.*?(\|.*?|)):(.*?)\{% endgallery %\}/gsm;
-	  		my ($file, $ext, $alt) = $line =~ /(.*?\.(jpg|gif|jpeg|png)): (.*?)$/m;
-			my ($imagefile,$thumbfile) = split(/\|/, $file);
-			# printf "Img: %s, th: %s ext: %s alt: %s\n", $file, $thumbfile, $ext, $alt if ($file ne "" );
-	 		my ($thumb) = $file =~ /(.*?)\..*?$/m;
-			if ( $thumbfile eq "" ) { $thumbfile = $thumb."_m.".$ext; }
-			if ( $file ) {
-	  			$output .= sprintf "<a href=\"%s\" class=\"fancybox\" rel=\"group%s\" title=\"%s\"><img src=\"%s\" alt=\"%s\" height=\"200\" /></a>\n", 
-	  			$imagefile, $groupid, $alt, $thumbfile, $alt;
+			my ($imagefile, $thumbnail) = ""; 
+			my ($images,$alt) = split(":", $line);
+			if ( $images =~ /\|/sm ) {
+				($imagefile,$thumbnail) = split(/\|/, $images);
+			} else {
+				$imagefile = $images; 
 			}
+			my ($thumb,$ext) = $imagefile =~ /(.*?)\.(.*?)$/m;
+			if ( $thumbnail eq "" ) { $thumbnail = $thumb."_m.".$ext; }
+			# printf ("img: %s Thumb: %s, alt: %s\n", $imagefile, $thumbnail, $alt);
+ 		 	$output .= sprintf "<a href=\"%s\" class=\"fancybox\" rel=\"group%s\" title=\"%s\"><img src=\"%s\" alt=\"%s\" height=\"200\" /></a>\n", 
+ 		 			$imagefile, $self->{id}, $alt, $thumbnail, $alt;
+ 		 	my $styleprefix = "";
 		}
-	# }
-	my $styleprefix = "";
-	$output = "<div id=\"imagediv\"><ul>$output</div><div style=\"clear:left;\"></div>\n";
-	$output = $output . "\n<script>\$(document).ready(function() {\n    \$(\".fancybox\").fancybox();\n  });\n</script>\n";
-	$text =~ s/(\{% gallery (.*?|)%\}.*\{% endgallery %\})/$stylefix $output/sm;
-	# print "Gallery ... $text";
-	# print "Text "  . $text . "\n";
-	return $text;
+		$output = "<div id=\"imagediv\"><ul>$output</div><div style=\"clear:left;\"></div>\n";
+		# printf ("Test -> ID %s -> Output %s\n", $self->{id}, $output);
+    $text =~s/\{% gallery ($self->{id}):(.*?) %\}/$output/gsm;
+		$output = "";
+  }
+	$text = $text . "\n<script type=\"text/javascript\">\n	\$(document).ready(function() {\n    \$(\".fancybox\").fancybox();\n  });\n</script>\n";
+  return $text;
 }
+
+sub loadgallery{
+  my ($self,$file) = @_;
+  my $fh=new IO::File("source/$file",'r') || return('1 Error: Unable to read default_index file "<source/' . $file .'": '.$!);
+  my $gallery=join('',<$fh>);
+  $fh->close();
+  return $gallery;
+}
+
 
 1;
