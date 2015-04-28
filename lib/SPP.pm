@@ -65,6 +65,7 @@ sub readconfig {
   $cfg->{stashdir} = "$cfg->{'dirname'}/$cfg->{'basename'}/$cfg->{'source'}/$cfg->{'stash'}";
   $cfg->{public} = "$cfg->{'dirname'}/$cfg->{'basename'}/$cfg->{'public'}";
   $self->setthehash('cfg',$cfg);
+	printf ("Test: %s\n", $cfg->{'sitelogo'});
   return $self;
 }
 #  /END

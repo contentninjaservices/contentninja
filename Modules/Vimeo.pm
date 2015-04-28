@@ -17,7 +17,7 @@ sub run{
 	my $yid = $text;
 	my $vimeo1 = '<iframe src="https://player.vimeo.com/video/';
 	my $vimeo2 = '" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
-	$text =~ s/\{% soundcloud (.*?) %\}/$vimeo1.$1.$vimeo2/eg;
+	$text =~ s/\{% vimeo (.*?) %\}/$vimeo1.$1.$vimeo2/eg;
 	return $text;
 }
 
