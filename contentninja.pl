@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 use vars qw($VERSION @ISA @EXPORT);
-our $VERSION = "0.8.6";
+our $VERSION = "0.8.7";
 use Text::Markdown 'markdown';
 # use File::Copy::Recursive qw(dircopy);
 use lib ("./lib");
@@ -75,11 +75,11 @@ foreach my $filename (@filelist) {
 	$posttitle = "<a href=\"$posturl\">$posttitle</a>";
 	# $content =~ s/\{\{ title \}\}/$posttitle2/eg;
 	# print "Test: $posttitle2\n";
-	$content =~ s/\{\{ postauthor \}\}/$author/eg;
-	$content =~ s/\{\{ postdate \}\}/$postdate/eg;
-	$content =~ s/\{\{ posturl \}\}/$posturl/eg;
-	$content =~ s/\{\{ postimage \}\}/$postimage/eg;
-	$content =~ s/\{\{ title \}\}/$posttitle/eg;
+	$content =~ s/\{% siteauthor %\}/$author/eg;
+	$content =~ s/\{% date %\}/$postdate/eg;
+	$content =~ s/\{% posturl %\}/$posturl/eg;
+	$content =~ s/\{% postimage %\}/$postimage/eg;
+	$content =~ s/\{% title %\}/$posttitle/eg;
 	$content = $spp->loadmodules($content);
 	$content = $spp->searchincludes($content); 
 	my $page = $spp->loadlayout($postlayout);
@@ -87,8 +87,8 @@ foreach my $filename (@filelist) {
 	$page =~ s/\{% content %\}/$content/eg;
 	my $pagnition = "";
 	$page =~ s/\{% pagnition %\}/$pagnition/eg;
-	$page =~ s/\{\{ pagetitle \}\}/$cfg->{sitetitle}/eg;
-	$page =~ s/\{\{ pagesubtitle \}\}/$cfg->{sitesubtitle}/eg;
+	$page =~ s/\{% pagetitle %\}/$cfg->{sitetitle}/eg;
+	$page =~ s/\{% pagesubtitle %\}/$cfg->{sitesubtitle}/eg;
 	$page =~ s/\{% sitelogo %\}/$cfg->{sitelogo}/eg;
 	$page =~ s/\<\^/chr(123)/eg;
 	if ( $pheader->{menu} ) {
