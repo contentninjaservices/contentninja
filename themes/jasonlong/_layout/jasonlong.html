@@ -29,7 +29,7 @@
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <title>{{ pagetitle }}</title>
+    <title>{% pagetitle %}</title>
   </head>
 
   <body>
@@ -37,8 +37,8 @@
       <div class="inner">
 
 				<header>
-          <h1><a href="/">{{ pagetitle }}</a></h1>
-          <h2>{{ pagesubtitle }}</h2>
+          <h1><a href="/">{% pagetitle %}</a></h1>
+          <h2>{% pagesubtitle %}</h2>
         </header>
 
         <section id="downloads" class="clearfix">
@@ -76,7 +76,7 @@
       </div>
     </div>
 		<div style="position:absolute; top:30px; left:30px;">
-			<a href="/"><img src="/themefiles/images/ninja.png" style="width:70%"></a>
+			<a href="/"><img src="{% sitelogo %}" style="width:70%"></a>
 		</div>
   </body>
 </html>
