@@ -42,58 +42,22 @@ foreach my $filename (@filelist) {
 	my($dir, $filebase, $fileext) = $filename =~ /^source\/((?:[\w\-\.]+\/)*)([\w\-\.]+)\.(markdown|html)$/;
 	my $post = $spp->loadpost("$filename");
 	my $postheader = $spp->splitheader($post);
-
+	my $postbody = $spp->splitcontent($post);
   # Get the header Info Date, Title, Author, ....
 	my $pheader = $spp->readheader($postheader);
-	my $postlayout = $pheader->{"layout"}; # spp->readheader($postheader);
-	my $posttitle = $pheader->{"title"};
-	# printf "Page Layout: %s - %s\n", $postlayout, $posttitle; 
-	$posttitle 		=~ s/\"//g;
-	my $pagetitle = $posttitle;
-	# my $posttitle2 = $pheader->{"title"};
-	# $posttitle2 		=~ s/\"//g;
-	my $author 		= $pheader->{"author"};
-	my $postdate 	= $pheader->{"date"};
-	my $published = $pheader->{"published"};
-	my $posturl		="/todo.html";
-	my $postpath	="/";
-	my $postfile	="todo.html";
-	my $itemtime	=	$pheader->{"date"};
-	my $postimage = $pheader->{'image'};
-	if ( ! $postimage ) { $postimage = "/images/2014/08/thkommentare.png"; }
-	$itemtime 		=~ s/\ /T/g if ($itemtime);
-	$itemtime 	 .= "+2:00";
-	# ($tags) = $spp->getCatsTags($postheader,"tags",$tags);
-	# ($categories) = $spp->getCatsTags($postheader,"categories",$categories);
+	$spp->setthehash('pheader',$pheader);
 
-	if ( $published =~ /false/ ) { print "Das teil ist auf False: $filename\n"; next; }
-	if ( ! $author ) { $author = "Rüdiger Pretzlaff"; }
-	if ( ! $itemtime ) { $itemtime=$pheader->{"itemtime"}; }
-	my $postbody = $spp->splitcontent($post);
+	if ( $pheader->{"published"} =~ /false/ ) { print "Page published is false: $filename\n"; next; }
 	my $content = $spp->include($pheader->{"layout"}.".html"); 
 	$content =~ s/\{% content %\}/$spp->searchincludes(markdown($postbody))/eg;
-	$posttitle = "<a href=\"$posturl\">$posttitle</a>";
-	# $content =~ s/\{\{ title \}\}/$posttitle2/eg;
-	# print "Test: $posttitle2\n";
-	$content =~ s/\{% siteauthor %\}/$author/eg;
-	$content =~ s/\{% date %\}/$postdate/eg;
-	$content =~ s/\{% posturl %\}/$posturl/eg;
-	$content =~ s/\{% postimage %\}/$postimage/eg;
-	$content =~ s/\{% title %\}/$posttitle/eg;
-	$content = $spp->loadmodules($content);
-	$content = $spp->searchincludes($content); 
-	my $page = $spp->loadlayout($postlayout);
+	$content = $spp->searchincludes($spp->loadmodules($spp->contentparser($content))); 
+	
+	my $page = $spp->loadlayout($pheader->{"layout"});
 	$page = $spp->searchincludes($page); 
 	$page =~ s/\{% content %\}/$content/eg;
-	my $pagnition = "";
-	$page =~ s/\{% pagnition %\}/$pagnition/eg;
-	$page =~ s/\{% pagetitle %\}/$cfg->{sitetitle}/eg;
-	$page =~ s/\{% pagesubtitle %\}/$cfg->{sitesubtitle}/eg;
-	$page =~ s/\{% sitelogo %\}/$cfg->{sitelogo}/eg;
-	$page =~ s/\<\^/chr(123)/eg;
-	if ( $pheader->{menu} ) {
-		$spp->addmenuentry($pheader->{menu});
-	}
+	# my $pagnition = "";
+	$page = $spp->contentparser($page);
+	$spp->addmenuentry($pheader->{menu}) if ( $pheader->{menu} );
 	$spp->output($page,$cfg->{public}."/$dir","$filebase.html");
 	$pheader->{menu} = ""; 
 }

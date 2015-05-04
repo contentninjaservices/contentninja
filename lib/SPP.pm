@@ -135,6 +135,23 @@ sub logging{
 #  Hashes und Variables
 #
 #################################################################
+sub contentparser{
+	my ($self,$content) = @_;
+	my $pheader = $self->getthehash("pheader");
+	my $cfg = $self->getthehash("cfg");
+  $content =~ s/\{% siteauthor %\}/$pheader->{"author"}/eg;
+  $content =~ s/\{% date %\}/$pheader->{"date"};/eg;
+  $content =~ s/\{% posturl %\}/$pheader->{"url"};/eg;
+  $content =~ s/\{% postimage %\}/$pheader->{"image"};/eg;
+	my ($title) = $pheader->{"title"} =~ s/\"//g;
+  $content =~ s/\{% title %\}/$pheader->{"title"};/eg;
+  $content =~ s/\{% pagetitle %\}/$cfg->{sitetitle}/eg;
+  $content =~ s/\{% pagesubtitle %\}/$cfg->{sitesubtitle}/eg;
+  $content =~ s/\{% sitelogo %\}/$cfg->{sitelogo}/eg;
+  $content =~ s/\<\^/chr(123)/eg;
+	return $content;
+}
+
 sub load_default_page{
 	my ($self) = @_;
 	my $fh=new IO::File($self->getfromhash("cfg","default_index"),'r') || return('1 Error: Unable to read default_index file '.$self->getfromhash("cfg","default_index").': '.$!);
