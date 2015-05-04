@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 use vars qw($VERSION @ISA @EXPORT);
-our $VERSION = "0.8.7";
+our $VERSION = "0.8.8.0";
 use Text::Markdown 'markdown';
 # use File::Copy::Recursive qw(dircopy);
 use lib ("./lib");
