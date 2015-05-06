@@ -1,4 +1,4 @@
-package Modules::Includecode;
+package Modules::Contentinclude;
 
 #
 # {% includecode 1:path/to/codefilea.code %}
