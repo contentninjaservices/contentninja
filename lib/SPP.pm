@@ -182,9 +182,11 @@ sub splitheader{
 	return $page;
 }
 sub splitcontent{
-	my ($self, $page) = @_;
+	my ($self, $page, $premodules) = @_;
 	$page =~ s/---(.*?)---(.*)/$2/gsm;
-	$page = $self->loadmodules($page);
+	# $self->{premodules} = 1; 
+	$page = $self->loadmodules($page,$premodules);
+	# $self->{premodules} = 0;
 	return $page;
 }
 sub postmore{
@@ -283,7 +285,7 @@ sub searchincludes() {
 
 # Modules 
 sub loadmodules{
-	my ($self, $body) = @_;
+	my ($self, $body, $premodules) = @_;
 	my $mods;
 	my $cfg = $self->getthehash("cfg");
 	my $cfgmods = $cfg->{"modules"}; 
@@ -295,7 +297,7 @@ sub loadmodules{
   	eval "use $modulname";
   	my $module = $modulname->new();
 		# print "Body: XXX" . $body . "XXX\n";
-  	$body = $module->run($body);
+  	$body = $module->run($body,$premodules);
 	}
 	return $body;
 }

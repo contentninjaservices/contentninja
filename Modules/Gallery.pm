@@ -16,7 +16,11 @@ sub new{
 }
 
 sub run{
-  my ($self,$text) = @_;
+  my ($self,$text,$premodules) = @_;
+	if ( $premodules == 1 ) {
+    # printf "Sollte nicht laufen\n";
+		return $text;
+  }
   # my $yid = $text;
   while ( $text =~ /\{% gallery (.*) %\}/g ) {
     my ($file) = $text =~ /\{% gallery (.*) %\}/;

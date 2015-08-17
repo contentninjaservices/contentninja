@@ -42,16 +42,23 @@ foreach my $filename (@filelist) {
 	my($dir, $filebase, $fileext) = $filename =~ /^source\/((?:[\w\-\.]+\/)*)([\w\-\.]+)\.(markdown|html)$/;
 	my $post = $spp->loadpost("$filename");
 	my $postheader = $spp->splitheader($post);
-	my $postbody = $spp->splitcontent($post);
+	my $postbody = $spp->splitcontent($post,1);
+	# printf ("Test2: %s\n-------\n", $postbody);
   # Get the header Info Date, Title, Author, ....
 	my $pheader = $spp->readheader($postheader);
 	$spp->setthehash('pheader',$pheader);
 
 	if ( $pheader->{"published"} =~ /false/ ) { print "Page published is false: $filename\n"; next; }
 	my $content = $spp->include($pheader->{"layout"}.".html"); 
-	$content =~ s/\{% content %\}/$spp->searchincludes(markdown($postbody))/eg;
+	$postbody = markdown($postbody);
+	# printf ("Test: %s\n", $pheader->{"viewsource"});
+	if ( $pheader->{"viewsource"} eq "true" ) {
+		# printf ("Test2: %s\n", $postbody);
+		$postbody = $postbody . "<pre><code>" . $postbody . "</code></pre>";
+		# printf ("Test3: %s\n", $postbody);
+	}
+	$content =~ s/\{% content %\}/$spp->searchincludes($postbody)/eg;
 	$content = $spp->searchincludes($spp->loadmodules($spp->contentparser($content))); 
-	
 	my $page = $spp->loadlayout($pheader->{"layout"});
 	$page = $spp->searchincludes($page); 
 	$page =~ s/\{% content %\}/$content/eg;
