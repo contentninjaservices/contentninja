@@ -1,7 +1,7 @@
 package SPP;
 use vars qw($VERSION @ISA @EXPORT);
 require Exporter;
-our $VERSION = "0.8.7";
+our $VERSION = "0.8.8.1";
 
 use Cwd;
 use LWP::Simple;

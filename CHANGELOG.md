@@ -1,4 +1,9 @@
 
+## v0.8.8.0
+
+  * add subnavigation
+  * add namespaces
+
 ## V0.8.5.2 (16=04/2015)
 
 	* add codeinclude 
