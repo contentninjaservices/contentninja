@@ -62,11 +62,22 @@ foreach my $filename (@filelist) {
 	my $page = $spp->loadlayout($pheader->{"layout"});
 	$page = $spp->searchincludes($page); 
 	$page =~ s/\{% content %\}/$content/eg;
-	# my $pagnition = "";
 	$page = $spp->contentparser($page);
-	$spp->addmenuentry($pheader->{menu}) if ( $pheader->{menu} );
+	my $namespace = $pheader->{namespace};
+  my @namespaces = split(' ', $namespace);
+	$page =~ s/\{% namespace %\}/$namespaces[1]/eg if ( $namespaces[1] );
+	if ( $pheader->{menu} ) {
+		if ( $namespaces[0] eq "ROOT" ) {
+			$spp->addmenuentry($pheader->{menu}) 
+		} 
+    #elsif ( $namespaces[0] ne "ROOT" ) {
+			$spp->addsubmenuentry($pheader->{menu},$namespaces[1]); 
+		#}
+	}
+
 	$spp->output($page,$cfg->{public}."/$dir","$filebase.html");
 	$pheader->{menu} = ""; 
+	$pheader->{namespace} = ""; 
 }
 # print " OK \n";
 $spp->logging(sprintf (" Time: %.6fs", time - $pstart)) if($profiling);
@@ -77,6 +88,13 @@ my $navigation = $spp->{"menu"};
 $nav =~ s/\{% navigation %\}/$navigation/eg;
 $spp->output($nav,$cfg->{public},"/navigation.html");
 
+foreach my $key (keys %{$spp->{"submenu"}}) {
+ 	next if($key =~ /\//);
+	my $nav = $spp->include("navigation.html"); 
+	my $navigation = $spp->{"submenu"}->{$key};
+	$nav =~ s/\{% navigation %\}/$navigation/eg;
+	$spp->output($nav,$cfg->{public},"/$key"."/navigation.html");
+}
 
 $spp->logging("# copy all to public folder.");
 

@@ -112,7 +112,16 @@ sub addmenuentry{
 	my ($self,$menuentry) = @_;
 	# printf ("test: $menuentry\n");
 	my @arr = split(' ', $menuentry);
+	printf "--> <li><a href=\"%s\">%s</a></li>\n", $arr[0], $arr[1];
 	$self->{"menu"} .= sprintf "<li><a href=\"%s\">%s</a></li>", $arr[0], $arr[1];
+	return self;
+}
+sub addsubmenuentry{
+	my ($self,$menuentry,$namespace) = @_;
+	# printf ("test: $menuentry\n");
+	my @arr = split(' ', $menuentry);
+	printf "<li><a href=\"%s\">%s</a></li>\n", $arr[0], $arr[1];
+	$self->{"submenu"}->{$namespace} .= sprintf "<li><a href=\"%s\">%s</a></li>", $arr[0], $arr[1];
 	return self;
 }
 sub toggledebug{
