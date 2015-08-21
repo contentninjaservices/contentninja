@@ -1,10 +1,11 @@
+## v0.8.8.1 (21/08/2015)
 
-## v0.8.8.0
+## v0.8.8.0 (21/08/2015)
 
   * add subnavigation
   * add namespaces
 
-## V0.8.5.2 (16=04/2015)
+## V0.8.5.2 (16/04/2015)
 
 	* add codeinclude 
   * navigation horizontal
