@@ -114,16 +114,18 @@ sub addmenuentry{
 	my ($self,$menuentry) = @_;
 	# printf ("test: $menuentry\n");
 	my @arr = split(' ', $menuentry);
-	# printf "--> <li><a href=\"%s%s\">%s</a></li>\n", $self->{"instpath"}, $arr[0], $arr[1];
-	$self->{"menu"} .= sprintf "<li><a href=\"%s\">%s</a></li>", $self->{"instpath"}, $arr[0], $arr[1];
+	my $cfg = $self->getthehash("cfg");
+	printf "--> <li><a href=\"%s%s\">%s</a></li>\n", $cfg->{"instpath"}, $arr[0], $arr[1];
+	$self->{"menu"} .= sprintf "<li><a href=\"%s\">%s</a></li>", $cfg->{"instpath"}, $arr[0], $arr[1];
 	return self;
 }
 sub addsubmenuentry{
 	my ($self,$menuentry,$namespace) = @_;
 	# printf ("test: $menuentry\n");
 	my @arr = split(' ', $menuentry);
-	# printf "<li><a href=\"%s%s\">%s</a></li>\n", $self->{"instpath"}, $arr[0], $arr[1];
-	$self->{"submenu"}->{$namespace} .= sprintf "<li><a href=\"%s%s\">%s</a></li>", $self->{"instpath"}, $arr[0], $arr[1];
+	my $cfg = $self->getthehash("cfg");
+	printf "<li><a href=\"%s%s\">%s</a></li>\n", $cfg->{"instpath"}, $arr[0], $arr[1];
+	$self->{"submenu"}->{$namespace} .= sprintf "<li><a href=\"%s%s\">%s</a></li>", $cfg->{"instpath"}, $arr[0], $arr[1];
 	return self;
 }
 sub toggledebug{
@@ -135,7 +137,7 @@ sub toggledebug{
 }
 
 sub logging{
-	my ($self,$text) = @_; 
+	my ($self,$text) = @_;
 	my $fh=new IO::File($self->getfromhash("cfg","logfile"),'w') || return('1 Error: Unable to open logfile '.$self->getfromhash("cfg","logfile").': '.$!);
 	printf ( localtime() . "%s\n", $text);
 	$fh->close();
@@ -151,12 +153,12 @@ sub contentparser{
 	my $pheader = $self->getthehash("pheader");
 	my $cfg = $self->getthehash("cfg");
   $content =~ s/\{% siteauthor %\}/$pheader->{"author"}/eg;
-  $content =~ s/\{% date %\}/$pheader->{"date"};/eg;
-  $content =~ s/\{% instpath %\}/$pheader->{"instpath"};/eg;
-  $content =~ s/\{% posturl %\}/$pheader->{"url"};/eg;
-  $content =~ s/\{% postimage %\}/$pheader->{"image"};/eg;
+  $content =~ s/\{% date %\}/$pheader->{"date"}/eg;
+  $content =~ s/\{% instpath %\}/$cfg->{"instpath"}/eg;
+  $content =~ s/\{% posturl %\}/$pheader->{"url"}/eg;
+  $content =~ s/\{% postimage %\}/$pheader->{"image"}/eg;
 	my ($title) = $pheader->{"title"} =~ s/\"//g;
-  $content =~ s/\{% title %\}/$pheader->{"title"};/eg;
+  $content =~ s/\{% title %\}/$pheader->{"title"}/eg;
   $content =~ s/\{% pagetitle %\}/$cfg->{sitetitle}/eg;
   $content =~ s/\{% pagesubtitle %\}/$cfg->{sitesubtitle}/eg;
   $content =~ s/\{% sitelogo %\}/$cfg->{sitelogo}/eg;
@@ -196,13 +198,13 @@ sub splitheader{
 sub splitcontent{
 	my ($self, $page, $premodules) = @_;
 	$page =~ s/---(.*?)---(.*)/$2/gsm;
-	# $self->{premodules} = 1; 
+	# $self->{premodules} = 1;
 	$page = $self->loadmodules($page,$premodules);
 	# $self->{premodules} = 0;
 	return $page;
 }
 sub postmore{
-	my ($self, $postmore) = @_; 
+	my ($self, $postmore) = @_;
   	my $part2 = "<script type=\"text/javascript\">
       \$(document).ready(function(){
         /* Hier der jQuery-Code */
@@ -246,9 +248,9 @@ sub readheader() {
   return $pheader;
 }
 
-# rss entries 
+# rss entries
 sub rssentries{
-	my ($self, $postsPerPage, @keys) = @_; 
+	my ($self, $postsPerPage, @keys) = @_;
 	my $entry = "";
 	my $cfg = $self->getthehash("cfg");
 	my $rssposts = $self->getthehash("posts");
@@ -276,11 +278,11 @@ sub rssentries{
 	  $entry .= "     <content type=\"html\"><![CDATA[" . $content . "]]></content>\n",
 	  $entry .= "   </entry>\n";
 	}
-	return $entry; 
+	return $entry;
 }
 
 sub include() {
-  my ($self,$file) = @_; 
+  my ($self,$file) = @_;
 	my $cfg = $self->getthehash("cfg");
   my $p    = "themes/" . $cfg->{theme} . "/_includes";
   my $fh=new IO::File($p.'/'.$file,'r') || return('4 Error: Unable to read file '.$p."/".$file.': '.$!);
@@ -295,12 +297,12 @@ sub searchincludes() {
   return $data;
 }
 
-# Modules 
+# Modules
 sub loadmodules{
 	my ($self, $body, $premodules) = @_;
 	my $mods;
 	my $cfg = $self->getthehash("cfg");
-	my $cfgmods = $cfg->{"modules"}; 
+	my $cfgmods = $cfg->{"modules"};
 	my @found = usesub Modules;
 	# my @found = split(" ", $cfgmods);
 	foreach (sort @found) {
@@ -339,7 +341,7 @@ sub getCatsTags{
 		# push(@arr,$val);
 		# printf "Counter für $val: %s\n" , $hash->{$val};
 	}
-	return $hash;	
+	return $hash;
 }
 sub uniqarray {
 	my ($self,@array) = @_;
@@ -352,7 +354,7 @@ sub createdirectory {
 	my ($self,$path) = @_;
   my $count =0;
   my $cwd = getcwd();
-  chdir "/"; 
+  chdir "/";
 	# print "cwd: %s\n" , $cwd;
   my @folders = split /\/|\\/, $path;
 	# printf ("Output: %s/%s\n", $path, $output);
@@ -379,6 +381,7 @@ sub copy2public {
 	$fromdir = "themes/" . $cfg->{theme} . '/themefiles';
 	$todir = $cfg->{public} . '/themefiles';
 	$self->createdirectory($todir);
+	printf ("F: %s - T: %s\n", $fromdir, $todir);
 	dircopy($fromdir,$todir) or die $!;
 }
 
@@ -431,10 +434,10 @@ sub createtarball{
 	chdir("output");
 	# Add some files:
 	$tar->add_files( <*> );
-	
+
 	# Finished:
 	$tar->write( 'file.tar' );
-	
+
 	# Now extract:
 	# my $tar = Archive::Tar->new();
 	# $tar->read( 'file.tar' );

@@ -18,11 +18,11 @@ my ($debug, $t, $d, $td, $dt ) = 0 ;
 my %h = ('debug' => \$debug, 't' => \$t, 'td' => \$td, 'dt' => \$dt);
 GetOptions ( 'debug', 't' => \$t , 'd' => \$d, 'td' => \$td, 'dt' => \$dt);
 
-if ( $t && $d ) { print "test deploy\n"; system("./rsync -t "); exit 0; } 
-if ( $t ) { print "test deploy\n"; system("./rsync -t "); exit 0; } 
-if ( $dt ) { print "test deploy\n"; system("./rsync -t "); exit 0; } 
-if ( $td ) { print "test deploy\n"; system("./rsync -t "); exit 0; } 
-if ( $d ) { system("./rsync "); exit 0; } 
+if ( $t && $d ) { print "test deploy\n"; system("./rsync -t "); exit 0; }
+if ( $t ) { print "test deploy\n"; system("./rsync -t "); exit 0; }
+if ( $dt ) { print "test deploy\n"; system("./rsync -t "); exit 0; }
+if ( $td ) { print "test deploy\n"; system("./rsync -t "); exit 0; }
+if ( $d ) { system("./rsync "); exit 0; }
 
 my $pstart = time;
 my $spp = new SPP;
@@ -52,7 +52,7 @@ foreach my $filename (@filelist) {
 	$spp->setthehash('pheader',$pheader);
 
 	if ( $pheader->{"published"} =~ /false/ ) { print "Page published is false: $filename\n"; next; }
-	my $content = $spp->include($pheader->{"layout"}.".html"); 
+	my $content = $spp->include($pheader->{"layout"}.".html");
 	$postbody = markdown($postbody);
 	# printf ("Test: %s\n", $pheader->{"viewsource"});
 	if ( $pheader->{"viewsource"} eq "true" ) {
@@ -61,9 +61,9 @@ foreach my $filename (@filelist) {
 		# printf ("Test3: %s\n", $postbody);
 	}
 	$content =~ s/\{% content %\}/$spp->searchincludes($postbody)/eg;
-	$content = $spp->searchincludes($spp->loadmodules($spp->contentparser($content))); 
+	$content = $spp->searchincludes($spp->loadmodules($spp->contentparser($content)));
 	my $page = $spp->loadlayout($pheader->{"layout"});
-	$page = $spp->searchincludes($page); 
+	$page = $spp->searchincludes($page);
 	$page =~ s/\{% content %\}/$content/eg;
 	$page = $spp->contentparser($page);
 	my $namespace = $pheader->{namespace};
@@ -72,20 +72,20 @@ foreach my $filename (@filelist) {
 		printf ("\nkeys: %s\n", $keys) if($profiling);
 		$page =~ s/\{% namespace %\}/$keys/eg if ( $keys ne "/" );
 		if ( $pheader->{menu} ) {
-			$spp->addsubmenuentry($pheader->{menu},$keys); 
+			$spp->addsubmenuentry($pheader->{menu},$keys);
 		}
 	}
 	print "spp->output $cfg->{public}/$dir/".$filebase.".html\n" if($profiling) ;
 
 	$spp->output($page,$cfg->{public}."/$dir","$filebase.html");
-	$pheader->{menu} = ""; 
-	$pheader->{namespace} = ""; 
+	$pheader->{menu} = "";
+	$pheader->{namespace} = "";
 }
 # print " OK \n";
 $spp->logging(sprintf (" Time: %.6fs", time - $pstart)) if($profiling);
 
 # navigation
-# my $nav = $spp->include("navigation.html"); 
+# my $nav = $spp->include("navigation.html");
 # my $navigation = $spp->{"menu"};
 # $nav =~ s/\{% navigation %\}/$navigation/eg;
 # $spp->output($nav,$cfg->{public},"/navigation.html");
@@ -93,7 +93,7 @@ $spp->logging(sprintf (" Time: %.6fs", time - $pstart)) if($profiling);
 foreach my $key (keys %{$spp->{"submenu"}}) {
  	# next if($key =~ /\//);
 	printf ("\n\nNextRound\nKey: %s\n", $key) if($profiling);
-	my $nav = $spp->include("navigation.html"); 
+	my $nav = $spp->include("navigation.html");
 	my $navigation = $spp->{"submenu"}->{$key};
 	print "navigation: $navigation\n" if($profiling);
 	my @stopnamespace = split('/',$key);
@@ -121,14 +121,14 @@ foreach my $key (keys %{$spp->{"submenu"}}) {
 	my $delimiter = '/';
 	$pathkey =~ s/-/$delimiter/eg;
 	print "\t$cfg->{public}/$pathkey/navigation.html\n" if($profiling);
-	$spp->output($nav,$cfg->{public},"$pathkey"."navigation.html"); 
+	$spp->output($nav,$cfg->{public},"$pathkey"."navigation.html");
 }
 
 $spp->logging("# copy all to public folder.");
 
 #####################################
 #
-# copy all to public folder 
+# copy all to public folder
 #
 ### Other files
 my $otherfiles = $spp->buildFileIndexNonMd();
