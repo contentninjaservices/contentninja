@@ -12,6 +12,7 @@ use SPP;
 use Date::Manip;
 use POSIX qw(strftime);
 use Getopt::Long;
+use File::Path;
 
 my ($debug, $t, $d, $td, $dt ) = 0 ;
 my %h = ('debug' => \$debug, 't' => \$t, 'td' => \$td, 'dt' => \$dt);
@@ -28,10 +29,12 @@ my $spp = new SPP;
 my $cfg = $spp->getthehash("cfg");
 
 my $profiling = $cfg->{debug};
-
-#printf STDERR " Time: %.6fs\n", time - $pstart if($profiling);
+$profiling = 1 if ( $ENV{'DEBUG'} );
+printf STDERR " Time: %.6fs\n", time - $pstart if($profiling);
 $spp->logging(sprintf "Time: %.6fs", time - $pstart) if($profiling);
 $spp->logging("Generate Page...");
+rmtree("output");
+
 ###########################################r
 # Pages generieren
 #
@@ -65,15 +68,14 @@ foreach my $filename (@filelist) {
 	$page = $spp->contentparser($page);
 	my $namespace = $pheader->{namespace};
   my @namespaces = split(' ', $namespace);
-	$page =~ s/\{% namespace %\}/$namespaces[1]/eg if ( $namespaces[1] );
-	if ( $pheader->{menu} ) {
-		if ( $namespaces[0] eq "ROOT" ) {
-			$spp->addmenuentry($pheader->{menu}) 
-		} 
-    #elsif ( $namespaces[0] ne "ROOT" ) {
-			$spp->addsubmenuentry($pheader->{menu},$namespaces[1]); 
-		#}
+	foreach my $keys (@namespaces) {
+		printf ("\nkeys: %s\n", $keys) if($profiling);
+		$page =~ s/\{% namespace %\}/$keys/eg if ( $keys ne "/" );
+		if ( $pheader->{menu} ) {
+			$spp->addsubmenuentry($pheader->{menu},$keys); 
+		}
 	}
+	print "spp->output $cfg->{public}/$dir/".$filebase.".html\n" if($profiling) ;
 
 	$spp->output($page,$cfg->{public}."/$dir","$filebase.html");
 	$pheader->{menu} = ""; 
@@ -83,17 +85,43 @@ foreach my $filename (@filelist) {
 $spp->logging(sprintf (" Time: %.6fs", time - $pstart)) if($profiling);
 
 # navigation
-my $nav = $spp->include("navigation.html"); 
-my $navigation = $spp->{"menu"};
-$nav =~ s/\{% navigation %\}/$navigation/eg;
-$spp->output($nav,$cfg->{public},"/navigation.html");
+# my $nav = $spp->include("navigation.html"); 
+# my $navigation = $spp->{"menu"};
+# $nav =~ s/\{% navigation %\}/$navigation/eg;
+# $spp->output($nav,$cfg->{public},"/navigation.html");
 
 foreach my $key (keys %{$spp->{"submenu"}}) {
- 	next if($key =~ /\//);
+ 	# next if($key =~ /\//);
+	printf ("\n\nNextRound\nKey: %s\n", $key) if($profiling);
 	my $nav = $spp->include("navigation.html"); 
 	my $navigation = $spp->{"submenu"}->{$key};
+	print "navigation: $navigation\n" if($profiling);
+	my @stopnamespace = split('/',$key);
+	my $top = "";
+	my $topcount = @stopnamespace;
+	print "Top Count: $topcount\n" if($profiling);
+	if ( $topcount >= 2 ) {
+		for (my $i=1;$i<$topcount-1;$i++){
+			print "XXX $stopnamespace[$i]\n" if($profiling);
+			$top .= "/".$stopnamespace[$i];
+			printf ("TOP: $top\n") if($profiling);
+		}
+	} else {
+		$top = "/";
+		print "1 Level Page $top\n" if($profiling);
+	}
+	if ( $top ne "/" ) {
+		$top="/" if ( $top eq "" );
+		print "WTF: $top - $key\n" if($profiling);
+		$navigation = "<li><a href=\"$top\">Top</a></li>$navigation";
+	}
+	print "My Navigation: $navigation\n" if($profiling);
 	$nav =~ s/\{% navigation %\}/$navigation/eg;
-	$spp->output($nav,$cfg->{public},"/$key"."/navigation.html");
+	my $pathkey = $key;
+	my $delimiter = '/';
+	$pathkey =~ s/-/$delimiter/eg;
+	print "\t$cfg->{public}/$pathkey/navigation.html\n" if($profiling);
+	$spp->output($nav,$cfg->{public},"$pathkey"."navigation.html"); 
 }
 
 $spp->logging("# copy all to public folder.");
