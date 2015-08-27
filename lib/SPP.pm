@@ -1,7 +1,7 @@
 package SPP;
 use vars qw($VERSION @ISA @EXPORT);
 require Exporter;
-our $VERSION = "0.8.7";
+our $VERSION = "0.8.8.1";
 
 use Cwd;
 use LWP::Simple;
@@ -59,12 +59,14 @@ sub readconfig {
     $value =~ s/\s+$//g;
     die "Configuration option '$key' defined twice in line $count of configuration file '$file'" if($cfg->{$key});
     $cfg->{$key} = $value;
+		printf "%s -- %s\n", $key, $value if ( $cfg->{'debug'} );
   }
   $cfg->{postdir} = "$cfg->{'dirname'}/$cfg->{'basename'}/$cfg->{'source'}/$cfg->{'posts'}";
   $cfg->{draftdir} = "$cfg->{'dirname'}/$cfg->{'basename'}/$cfg->{'source'}/$cfg->{'drafts'}";
   $cfg->{stashdir} = "$cfg->{'dirname'}/$cfg->{'basename'}/$cfg->{'source'}/$cfg->{'stash'}";
   $cfg->{public} = "$cfg->{'dirname'}/$cfg->{'basename'}/$cfg->{'public'}";
   $self->setthehash('cfg',$cfg);
+	printf ("Debug: %s\n", $cfg->{'debug'}) if $cfg->{'debug'};
   return $self;
 }
 #  /END
@@ -112,7 +114,7 @@ sub addmenuentry{
 	my ($self,$menuentry) = @_;
 	# printf ("test: $menuentry\n");
 	my @arr = split(' ', $menuentry);
-	printf "--> <li><a href=\"%s%s\">%s</a></li>\n", $self->{"instpath"}, $arr[0], $arr[1];
+	# printf "--> <li><a href=\"%s%s\">%s</a></li>\n", $self->{"instpath"}, $arr[0], $arr[1];
 	$self->{"menu"} .= sprintf "<li><a href=\"%s\">%s</a></li>", $self->{"instpath"}, $arr[0], $arr[1];
 	return self;
 }
@@ -120,7 +122,7 @@ sub addsubmenuentry{
 	my ($self,$menuentry,$namespace) = @_;
 	# printf ("test: $menuentry\n");
 	my @arr = split(' ', $menuentry);
-	printf "<li><a href=\"%s%s\">%s</a></li>\n", $self->{"instpath"}, $arr[0], $arr[1];
+	# printf "<li><a href=\"%s%s\">%s</a></li>\n", $self->{"instpath"}, $arr[0], $arr[1];
 	$self->{"submenu"}->{$namespace} .= sprintf "<li><a href=\"%s%s\">%s</a></li>", $self->{"instpath"}, $arr[0], $arr[1];
 	return self;
 }
