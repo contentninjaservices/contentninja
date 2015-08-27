@@ -112,16 +112,16 @@ sub addmenuentry{
 	my ($self,$menuentry) = @_;
 	# printf ("test: $menuentry\n");
 	my @arr = split(' ', $menuentry);
-	printf "--> <li><a href=\"%s\">%s</a></li>\n", $arr[0], $arr[1];
-	$self->{"menu"} .= sprintf "<li><a href=\"%s\">%s</a></li>", $arr[0], $arr[1];
+	printf "--> <li><a href=\"%s%s\">%s</a></li>\n", $self->{"instpath"}, $arr[0], $arr[1];
+	$self->{"menu"} .= sprintf "<li><a href=\"%s\">%s</a></li>", $self->{"instpath"}, $arr[0], $arr[1];
 	return self;
 }
 sub addsubmenuentry{
 	my ($self,$menuentry,$namespace) = @_;
 	# printf ("test: $menuentry\n");
 	my @arr = split(' ', $menuentry);
-	printf "<li><a href=\"%s\">%s</a></li>\n", $arr[0], $arr[1];
-	$self->{"submenu"}->{$namespace} .= sprintf "<li><a href=\"%s\">%s</a></li>", $arr[0], $arr[1];
+	printf "<li><a href=\"%s%s\">%s</a></li>\n", $self->{"instpath"}, $arr[0], $arr[1];
+	$self->{"submenu"}->{$namespace} .= sprintf "<li><a href=\"%s%s\">%s</a></li>", $self->{"instpath"}, $arr[0], $arr[1];
 	return self;
 }
 sub toggledebug{
@@ -150,6 +150,7 @@ sub contentparser{
 	my $cfg = $self->getthehash("cfg");
   $content =~ s/\{% siteauthor %\}/$pheader->{"author"}/eg;
   $content =~ s/\{% date %\}/$pheader->{"date"};/eg;
+  $content =~ s/\{% instpath %\}/$pheader->{"instpath"};/eg;
   $content =~ s/\{% posturl %\}/$pheader->{"url"};/eg;
   $content =~ s/\{% postimage %\}/$pheader->{"image"};/eg;
 	my ($title) = $pheader->{"title"} =~ s/\"//g;
