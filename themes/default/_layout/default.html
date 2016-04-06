@@ -9,7 +9,8 @@
     <link rel="stylesheet" type="text/css" href="{% instpath %}/themefiles/stylesheets/print.css" media="print">
 
 		<!-- Add jQuery library -->
-		<script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+		<script type="text/javascript" src="/themefiles/js/jquery-latest.min.js"></script>
+		<!-- script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script -->
 		
 		<!-- Add mousewheel plugin (this is optional) -->
 		<script type="text/javascript" src="{% instpath %}/themefiles/fancybox/lib/jquery.mousewheel-3.0.6.pack.js"></script>
@@ -54,7 +55,7 @@
         </header>
         <header id="navigation2">
           <script language="javascript" type="text/javascript">
-            $("#navigation2").load("{% instpath %}/{% namespace %}/navigation.html");
+            $("#navigation2").load("{% namespaceb %}navigation.html");
           </script>
         </header>
         <hr>

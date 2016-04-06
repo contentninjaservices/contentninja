@@ -59,6 +59,7 @@ sub readconfig {
     $value =~ s/\s+$//g;
     die "Configuration option '$key' defined twice in line $count of configuration file '$file'" if($cfg->{$key});
     $cfg->{$key} = $value;
+		printf ("Instpath: %s - %s\n", $cfg->{'instpath'}, $cfg->{'debug'}) if ($debug->{'debug'})  ;
 		printf "%s -- %s\n", $key, $value if ( $cfg->{'debug'} );
   }
   $cfg->{postdir} = "$cfg->{'dirname'}/$cfg->{'basename'}/$cfg->{'source'}/$cfg->{'posts'}";
@@ -115,7 +116,7 @@ sub addmenuentry{
 	# printf ("test: $menuentry\n");
 	my @arr = split(' ', $menuentry);
 	my $cfg = $self->getthehash("cfg");
-	printf "--> <li><a href=\"%s%s\">%s</a></li>\n", $cfg->{"instpath"}, $arr[0], $arr[1];
+	printf "--> <li><a href=\"%s%s\">%s</a></li>\n", $cfg->{"instpath"}, $arr[0], $arr[1] if ( $cfg->{'debug'} eq 1 );
 	$self->{"menu"} .= sprintf "<li><a href=\"%s\">%s</a></li>", $cfg->{"instpath"}, $arr[0], $arr[1];
 	return self;
 }
@@ -124,7 +125,7 @@ sub addsubmenuentry{
 	# printf ("test: $menuentry\n");
 	my @arr = split(' ', $menuentry);
 	my $cfg = $self->getthehash("cfg");
-	printf "<li><a href=\"%s%s\">%s</a></li>\n", $cfg->{"instpath"}, $arr[0], $arr[1];
+	printf "<li><a href=\"%s%s\">%s</a></li>\n", $cfg->{"instpath"}, $arr[0], $arr[1]  if ( $cfg->{'debug'} eq 1 );
 	$self->{"submenu"}->{$namespace} .= sprintf "<li><a href=\"%s%s\">%s</a></li>", $cfg->{"instpath"}, $arr[0], $arr[1];
 	return self;
 }
@@ -381,7 +382,7 @@ sub copy2public {
 	$fromdir = "themes/" . $cfg->{theme} . '/themefiles';
 	$todir = $cfg->{public} . '/themefiles';
 	$self->createdirectory($todir);
-	printf ("F: %s - T: %s\n", $fromdir, $todir);
+	printf ("F: %s - T: %s\n", $fromdir, $todir) if ( $cfg->{'debug'} eq 1 );
 	dircopy($fromdir,$todir) or die $!;
 }
 

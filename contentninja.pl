@@ -38,7 +38,6 @@ rmtree("output");
 ###########################################r
 # Pages generieren
 #
-
 $spp->logging("Generiere pages ...");
 my @filelist = $spp->buildFileIndex();
 foreach my $filename (@filelist) {
@@ -71,6 +70,17 @@ foreach my $filename (@filelist) {
 	foreach my $keys (@namespaces) {
 		printf ("\nkeys: %s\n", $keys) if($profiling);
 		$page =~ s/\{% namespace %\}/$keys/eg if ( $keys ne "/" );
+		my $namespaceb = "";
+		if ( $cfg->{instpath} ne "" ) {
+			$namespaceb = "$cfg->{instpath}/$keys" if ( $cfg->{instpath} ne "" );
+		} else {
+			if ( $keys eq "/" ) { 
+				$namespaceb = "xxx$keys"; 
+			} else { 
+				$namespaceb = "$keys";
+			}
+		}
+		$page =~ s/\{% namespaceb %\}/$namespaceb/eg ;
 		if ( $pheader->{menu} ) {
 			$spp->addsubmenuentry($pheader->{menu},$keys);
 		}
@@ -113,7 +123,7 @@ foreach my $key (keys %{$spp->{"submenu"}}) {
 	if ( $top ne "/" ) {
 		$top="/" if ( $top eq "" );
 		print "WTF: $top - $key\n" if($profiling);
-		$navigation = "<li><a href=\"$top\">Top</a></li>$navigation";
+		$navigation = "<li><a href=\"$top\">Zurück</a></li>$navigation";
 	}
 	print "My Navigation: $navigation\n" if($profiling);
 	$nav =~ s/\{% navigation %\}/$navigation/eg;
